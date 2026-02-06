@@ -31,18 +31,38 @@ function adicionarItem() {
 
 function renderizarLista() {
     const listElement = document.getElementById("shoppingList");
-    listElement.innerHTML = "";
+    
+    // Criamos o cabeçalho das colunas apenas se houver itens
+    listElement.innerHTML = `
+        <li class="header-list">
+            <span class="col-item">ITEM</span>
+            <span class="col-desc">DESCRIÇÃO</span>
+            <span class="col-action"></span>
+        </li>
+    `;
 
     const transaction = db.transaction(["itens"], "readonly");
     const store = transaction.objectStore("itens");
     const request = store.getAll();
 
     request.onsuccess = () => {
-        request.result.forEach(item => {
+        const itens = request.result;
+        
+        // Se não houver itens, limpamos o cabeçalho
+        if (itens.length === 0) {
+            listElement.innerHTML = "<p style='text-align:center; color:#888;'>Sua lista está vazia</p>";
+            return;
+        }
+
+        itens.forEach((item, index) => {
             const li = document.createElement("li");
+            li.className = "item-row"; // Classe para estilizar a linha
             li.innerHTML = `
-                <span>${item.nome}</span> 
-                <span class="delete-btn" onclick="removerItem(${item.id})" title="Remover item">X</span>
+                <span class="col-item">${index + 1}</span>
+                <span class="col-desc">${item.nome}</span>
+                <span class="col-action">
+                    <span class="delete-btn" onclick="removerItem(${item.id})" title="Remover">X</span>
+                </span>
             `;
             listElement.appendChild(li);
         });

@@ -1,60 +1,60 @@
 /* Configuração geral do corpo da página */
 body { 
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-    /* Cria um degradê moderno de azul para roxo no fundo */
+    /* Degradê moderno que remete ao clima de Natal/RN */
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
     display: flex; 
-    /* Centraliza o conteúdo horizontal e verticalmente na tela */
     justify-content: center; 
     align-items: center;
-    height: 100vh; 
+    height: 100vh; /* Fixa a altura na tela para permitir rolagem interna */
     margin: 0;
 }
 
-/* Estilização do "cartão" branco que envolve a lista */
+/* O "cartão" branco que contém o app */
 .container { 
-    background: rgba(255, 255, 255, 0.95); /* Branco com leve transparência */
+    background: rgba(255, 255, 255, 0.95); 
     padding: 30px; 
-    border-radius: 15px; /* Bordas arredondadas para um visual moderno */
-    box-shadow: 0 10px 25px rgba(0,0,0,0.2); /* Sombra para dar profundidade */
-    width: 350px; 
+    border-radius: 15px; 
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2); 
+    width: 380px; /* Aumentado levemente para acomodar as colunas */
+    max-height: 90vh; /* Não ultrapassa 90% da altura da tela */
+    display: flex;
+    flex-direction: column; 
 }
 
-/* Estilo do título principal */
 h1 {
     color: #4a4a4a;
     text-align: center;
     font-size: 1.5rem;
     margin-bottom: 20px;
+    margin-top: 0;
 }
 
-/* Agrupamento do campo de texto e do botão */
+/* Área de digitação fixa no topo */
 .input-group { 
     display: flex; 
-    gap: 10px; /* Espaçamento entre o input e o botão */
+    gap: 10px; 
     margin-bottom: 20px; 
+    flex-shrink: 0; 
 }
 
-/* Campo de digitação */
 input { 
-    flex: 1; /* Faz o campo ocupar todo o espaço disponível */
+    flex: 1; 
     padding: 12px; 
     border: 2px solid #e0e0e0; 
     border-radius: 8px;
     outline: none;
-    transition: border-color 0.3s; /* Transição suave ao clicar no campo */
+    transition: border-color 0.3s;
 }
 
-/* Altera a cor da borda quando o usuário clica para digitar */
 input:focus {
     border-color: #667eea;
 }
 
-/* Botão de adicionar */
 button { 
     padding: 12px 20px; 
     cursor: pointer; 
-    background: #28a745; /* Cor verde para indicar ação positiva */
+    background: #28a745; 
     color: white; 
     border: none; 
     border-radius: 8px;
@@ -62,49 +62,102 @@ button {
     transition: background 0.3s;
 }
 
-/* Escurece o verde quando o mouse passa por cima do botão */
 button:hover {
     background: #218838;
 }
 
+/* Área que permite a rolagem apenas dos itens da lista */
+.list-container {
+    overflow-y: auto;
+    flex-grow: 1;
+    padding-right: 5px;
+}
+
+/* Estilização da barra de rolagem para navegadores Chrome/Edge */
+.list-container::-webkit-scrollbar {
+    width: 6px;
+}
+.list-container::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 10px;
+}
+
 /* Estilização da lista (ul) */
 ul { 
-    list-style: none; /* Remove as "bolinhas" padrão da lista */
+    list-style: none; 
     padding: 0; 
+    margin: 0;
 }
 
-/* Estilização de cada item da lista (li) */
-li { 
-    padding: 12px; 
+/* Cabeçalho da Lista (ITEM | DESCRIÇÃO) */
+.header-list {
+    background: #aeb5d3 !important;
+    color: white !important;
+    font-weight: bold;
+    font-size: 0.75rem;
+    border: none !important;
+    position: sticky; /* Faz o cabeçalho ficar parado no topo ao rolar */
+    top: 0;
+    z-index: 10;
+}
+
+/* Estilo para cada linha de item e para o cabeçalho */
+.item-row, .header-list {
+    display: flex;
+    align-items: center;
+    padding: 12px 10px;
     background: #f8f9fa;
-    margin-bottom: 8px;
+    margin-bottom: 5px;
     border-radius: 8px;
-    display: flex; 
-    justify-content: space-between; /* Coloca o nome de um lado e o X do outro */
-    align-items: center; 
     border: 1px solid #eee;
-    transition: all 0.2s ease; /* Suaviza o efeito de hover */
+    transition: all 0.2s ease;
 }
 
-/* Efeito visual quando passamos o mouse sobre um item da lista */
-li:hover {
+/* Efeito de destaque ao passar o mouse na linha */
+.item-row:hover {
     background-color: #eef2ff;
-    transform: scale(1.02); /* Aumenta levemente o tamanho do item */
+    transform: scale(1.01);
     border-color: #667eea;
 }
 
-/* Botão de excluir (o 'X') */
+/* Definição das Larguras das Colunas */
+.col-item {
+    width: 50px;      /* Coluna do número (ITEM) */
+    text-align: center;
+    font-weight: bold;
+    color: #444;
+    flex-shrink: 0;
+}
+
+/* A cor do número herda o roxo no corpo da lista */
+.item-row .col-item {
+    color: #667eea;
+}
+
+.col-desc {
+    flex-grow: 1;     /* Coluna DESCRIÇÃO ocupa o espaço central */
+    padding-left: 15px;
+    color: #333;
+    word-break: break-all;
+}
+
+.col-action {
+    width: 40px;      /* Coluna do botão de excluir */
+    text-align: right;
+    flex-shrink: 0;
+}
+
+/* Botão de excluir estilizado */
 .delete-btn {
     background: #ffeded;
     color: #ff4d4d;
-    padding: 2px 8px;
+    padding: 4px 10px;
     border-radius: 5px;
     cursor: pointer;
     font-weight: bold;
-    transition: background 0.3s, color 0.3s;
+    transition: all 0.3s;
 }
 
-/* Efeito quando passa o mouse no 'X' */
 .delete-btn:hover {
     background: #ff4d4d;
     color: white;
