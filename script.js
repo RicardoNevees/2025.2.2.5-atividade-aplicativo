@@ -1,7 +1,7 @@
 let db;
 const request = indexedDB.open("ListaComprasDB", 1);
 
-// Criar o banco de dados
+// 1. Configuração do Banco de Dados
 request.onupgradeneeded = (event) => {
     db = event.target.result;
     db.createObjectStore("itens", { keyPath: "id", autoIncrement: true });
@@ -9,25 +9,26 @@ request.onupgradeneeded = (event) => {
 
 request.onsuccess = (event) => {
     db = event.target.result;
-    renderizarLista(); // Carrega os dados ao abrir
+    renderizarLista(); 
 };
 
-// Função para Adicionar (Create)
+// 2. Funções de Gerenciamento (CRUD)
 function adicionarItem() {
-    const nome = document.getElementById("itemInput").value;
-    if (!nome) return;
+    const input = document.getElementById("itemInput");
+    const nome = input.value.trim(); // .trim() remove espaços vazios inúteis
+
+    if (nome === "") return; // Não adiciona se estiver vazio
 
     const transaction = db.transaction(["itens"], "readwrite");
     const store = transaction.objectStore("itens");
     store.add({ nome: nome });
 
     transaction.oncomplete = () => {
-        document.getElementById("itemInput").value = "";
+        input.value = ""; // Limpa o campo após adicionar
         renderizarLista();
     };
 }
 
-// Função para Listar (Retrieve)
 function renderizarLista() {
     const listElement = document.getElementById("shoppingList");
     listElement.innerHTML = "";
@@ -40,15 +41,14 @@ function renderizarLista() {
         request.result.forEach(item => {
             const li = document.createElement("li");
             li.innerHTML = `
-                ${item.nome} 
-                <span class="delete-btn" onclick="removerItem(${item.id})">X</span>
+                <span>${item.nome}</span> 
+                <span class="delete-btn" onclick="removerItem(${item.id})" title="Remover item">X</span>
             `;
             listElement.appendChild(li);
         });
     };
 }
 
-// Função para Remover (Delete)
 function removerItem(id) {
     const transaction = db.transaction(["itens"], "readwrite");
     const store = transaction.objectStore("itens");
@@ -56,4 +56,15 @@ function removerItem(id) {
     transaction.oncomplete = renderizarLista;
 }
 
+// 3. OUVINTES DE EVENTOS (Onde a mágica acontece)
+// Esse bloco deve ficar no final para garantir que as funções acima já existam
+
+// Clique no botão
 document.getElementById("addButton").onclick = adicionarItem;
+
+// Aperto da tecla Enter
+document.getElementById("itemInput").addEventListener("keypress", function (event) {
+    if (event.key === "Enter") {
+        adicionarItem();
+    }
+});
