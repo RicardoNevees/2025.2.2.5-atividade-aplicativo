@@ -1,8 +1,111 @@
-body { font-family: sans-serif; background-color: #f4f4f4; display: flex; justify-content: center; padding: 50px; }
-.container { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); width: 300px; }
-.input-group { display: flex; gap: 5px; margin-bottom: 20px; }
-input { flex: 1; padding: 8px; border: 1px solid #ddd; }
-button { padding: 8px; cursor: pointer; background: #28a745; color: white; border: none; }
-ul { list-style: none; padding: 0; }
-li { padding: 10px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; }
-.delete-btn { color: red; cursor: pointer; font-weight: bold; }
+/* Configuração geral do corpo da página */
+body { 
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+    /* Cria um degradê moderno de azul para roxo no fundo */
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+    display: flex; 
+    /* Centraliza o conteúdo horizontal e verticalmente na tela */
+    justify-content: center; 
+    align-items: center;
+    height: 100vh; 
+    margin: 0;
+}
+
+/* Estilização do "cartão" branco que envolve a lista */
+.container { 
+    background: rgba(255, 255, 255, 0.95); /* Branco com leve transparência */
+    padding: 30px; 
+    border-radius: 15px; /* Bordas arredondadas para um visual moderno */
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2); /* Sombra para dar profundidade */
+    width: 350px; 
+}
+
+/* Estilo do título principal */
+h1 {
+    color: #4a4a4a;
+    text-align: center;
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+}
+
+/* Agrupamento do campo de texto e do botão */
+.input-group { 
+    display: flex; 
+    gap: 10px; /* Espaçamento entre o input e o botão */
+    margin-bottom: 20px; 
+}
+
+/* Campo de digitação */
+input { 
+    flex: 1; /* Faz o campo ocupar todo o espaço disponível */
+    padding: 12px; 
+    border: 2px solid #e0e0e0; 
+    border-radius: 8px;
+    outline: none;
+    transition: border-color 0.3s; /* Transição suave ao clicar no campo */
+}
+
+/* Altera a cor da borda quando o usuário clica para digitar */
+input:focus {
+    border-color: #667eea;
+}
+
+/* Botão de adicionar */
+button { 
+    padding: 12px 20px; 
+    cursor: pointer; 
+    background: #28a745; /* Cor verde para indicar ação positiva */
+    color: white; 
+    border: none; 
+    border-radius: 8px;
+    font-weight: bold;
+    transition: background 0.3s;
+}
+
+/* Escurece o verde quando o mouse passa por cima do botão */
+button:hover {
+    background: #218838;
+}
+
+/* Estilização da lista (ul) */
+ul { 
+    list-style: none; /* Remove as "bolinhas" padrão da lista */
+    padding: 0; 
+}
+
+/* Estilização de cada item da lista (li) */
+li { 
+    padding: 12px; 
+    background: #f8f9fa;
+    margin-bottom: 8px;
+    border-radius: 8px;
+    display: flex; 
+    justify-content: space-between; /* Coloca o nome de um lado e o X do outro */
+    align-items: center; 
+    border: 1px solid #eee;
+    transition: all 0.2s ease; /* Suaviza o efeito de hover */
+}
+
+/* Efeito visual quando passamos o mouse sobre um item da lista */
+li:hover {
+    background-color: #eef2ff;
+    transform: scale(1.02); /* Aumenta levemente o tamanho do item */
+    border-color: #667eea;
+}
+
+/* Botão de excluir (o 'X') */
+.delete-btn {
+    background: #ffeded;
+    color: #ff4d4d;
+    padding: 2px 8px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.3s, color 0.3s;
+}
+
+/* Efeito quando passa o mouse no 'X' */
+.delete-btn:hover {
+    background: #ff4d4d;
+    color: white;
+}
