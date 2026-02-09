@@ -1,13 +1,13 @@
-let db;
+let db;   // cria uma variável global para armazenar a referência ao bando de dados.
 const request = indexedDB.open("ListaComprasDB", 1);
 
 // 1. Configuração do Banco de Dados
 request.onupgradeneeded = (event) => {
-    db = event.target.result;
-    db.createObjectStore("itens", { keyPath: "id", autoIncrement: true });
+    db = event.target.result;   // a variável "db", criada no topo, recebe a referência ao banco de dados aberto
+    db.createObjectStore("itens", { keyPath: "id", autoIncrement: true });   // comando para criar a "gaveta" (tabela) onde os itens serão guardados.
 };
 
-request.onsuccess = (event) => {
+request.onsuccess = (event) => {     //ocorre sempre que você abre o site e o banco de dados é carregado com sucesso.
     db = event.target.result;
     renderizarLista(); 
 };
