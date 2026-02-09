@@ -1,8 +1,8 @@
-let db;   // cria uma variável global para armazenar a referência ao bando de dados.
-const request = indexedDB.open("ListaComprasDB", 1);
+let db;   // LET cria uma variável para armazenar a referência ao bando de dados. DB é o nome dado a esse espaço de armazenamento.
+const request = indexedDB.open("ListaComprasDB", 1);   // CONST constante. REQUEST nome dado p/ a constante que guarda o pedido de abertura do bando de dados.
 
 // 1. Configuração do Banco de Dados
-request.onupgradeneeded = (event) => {
+request.onupgradeneeded = (event) => {   // ONUPGRADENEEDED ocorre quando o banco de dados é criado pela primera vez.
     db = event.target.result;   // a variável "db", criada no topo, recebe a referência ao banco de dados aberto
     db.createObjectStore("itens", { keyPath: "id", autoIncrement: true });   // comando para criar a "gaveta" (tabela) onde os itens serão guardados.
 };
@@ -12,9 +12,9 @@ request.onsuccess = (event) => {     //ocorre sempre que você abre o site e o b
     renderizarLista(); 
 };
 
-// 2. Funções de Gerenciamento (CRUD)
-function adicionarItem() {
-    const input = document.getElementById("itemInput");
+// 2. Funções de Gerenciamento (CRUD).    Aqui, veremos comandos que convesam com a página HTML
+function adicionarItem() {   
+    const input = document.getElementById("itemInput");    // DOCUMENT representa toa a página HTML. GETELEMENTBYID diz: "Encontre o elemento com o ID 'itemInput' e me traga ele".
     const nome = input.value.trim(); // .trim() remove espaços vazios inúteis
 
     if (nome === "") return; // Não adiciona se estiver vazio
@@ -29,10 +29,11 @@ function adicionarItem() {
     };
 }
 
-function renderizarLista() {
+function renderizarLista() {   // essa função é responsável por DESENHAR a lista de itens na tela. Sem ela, os dados estariam guardados no banco, mas o usuário não veria nada.
     const listElement = document.getElementById("shoppingList");
     
-    // Criamos o cabeçalho das colunas apenas se houver itens
+    // Criamos o cabeçalho das colunas apenas se houver itens.  
+    // .innerHTML commando que permite o JavaScript escrever código HTML dentro de um elemento existente na página
     listElement.innerHTML = `
         <li class="header-list">
             <span class="col-item">ITEM</span>
@@ -41,9 +42,9 @@ function renderizarLista() {
         </li>
     `;
 
-    const transaction = db.transaction(["itens"], "readonly");
-    const store = transaction.objectStore("itens");
-    const request = store.getAll();
+    const transaction = db.transaction(["itens"], "readonly");  // No JS, para mexer no banco de dados, precisamos de uma licença de uso: READWRITE (Ler e Escrever) ou READONLY (Apenas Ler).
+    const store = transaction.objectStore("itens");   // CONST STORE cria uma constante STORE para guardar o acesso à tabela de dados. OBJECTSTORE abre uma gaveta específica.
+    const request = store.getAll();  // guarda tudo o que tem na tabela "itens" dentro da constante REQUEST. O comando GETALL é o que diz: "Me traga tudo o que tem aqui dentro".
 
     request.onsuccess = () => {
         const itens = request.result;
@@ -54,7 +55,7 @@ function renderizarLista() {
             return;
         }
 
-        itens.forEach((item, index) => {
+        itens.forEach((item, index) => {   // itens.forEach é um laço de repetição. O forEach vai repetir o comando de criar a linha 10 vezes, uma para cada item.
             const li = document.createElement("li");
             li.className = "item-row"; // Classe para estilizar a linha
             li.innerHTML = `
@@ -76,15 +77,15 @@ function removerItem(id) {
     transaction.oncomplete = renderizarLista;
 }
 
-// 3. OUVINTES DE EVENTOS (Onde a mágica acontece)
-// Esse bloco deve ficar no final para garantir que as funções acima já existam
-
+// 3. OUVINTES DE EVENTOS
 // Clique no botão
-document.getElementById("addButton").onclick = adicionarItem;
+document.getElementById("addButton").onclick = adicionarItem;  // o JS localiza o botão "addButton" e diz: "Quando alguém clicar aqui, execute a função adicionarItem()".
 
 // Aperto da tecla Enter
-document.getElementById("itemInput").addEventListener("keypress", function (event) {
-    if (event.key === "Enter") {
+// ADDEVENTLISTENER diz ao campo de texto: "Fique de olho no que a pessoa digita aqui. Se ela apertar a tecla Enter, execute a função adicionarItem()". 
+// O "keypress" é o tipo de evento que estamos ouvindo, ou seja, quando a pessoa pressiona uma tecla.
+document.getElementById("itemInput").addEventListener("keypress", function (event) { 
+    if (event.key === "Enter") {  // EVENT.KEY é a tecla que foi pressionada. Se for "Enter", então execute a função adicionarItem().
         adicionarItem();
     }
 });
