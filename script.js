@@ -37,7 +37,7 @@ function renderizarLista() {   // essa função é responsável por DESENHAR a l
     listElement.innerHTML = `
         <li class="header-list">
             <span class="col-item">ITEM</span>
-            <span class="col-desc">DESCRIÇÃO</span>
+            <span class="col-desc">DESCRIPTION</span>
             <span class="col-action"></span>
         </li>
     `;
@@ -51,7 +51,7 @@ function renderizarLista() {   // essa função é responsável por DESENHAR a l
         
         // Se não houver itens, limpamos o cabeçalho
         if (itens.length === 0) {
-            listElement.innerHTML = "<p style='text-align:center; color:#888;'>Sua lista está vazia</p>";
+            listElement.innerHTML = "<p style='text-align:center; color:#888;'>Your shopping list is empty</p>";
             return;
         }
 
@@ -62,7 +62,7 @@ function renderizarLista() {   // essa função é responsável por DESENHAR a l
                 <span class="col-item">${index + 1}</span>
                 <span class="col-desc">${item.nome}</span>
                 <span class="col-action">
-                    <span class="delete-btn" onclick="removerItem(${item.id})" title="Remover">X</span>
+                    <span class="delete-btn" onclick="removeItem(${item.id})" title="Remover">X</span>
                 </span>
             `;
             listElement.appendChild(li);
