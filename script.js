@@ -70,7 +70,7 @@ function renderizarLista() {   // essa função é responsável por DESENHAR a l
     };
 }
 
-function removerItem(id) {
+function removeItem(id) {
     const transaction = db.transaction(["itens"], "readwrite");
     const store = transaction.objectStore("itens");
     store.delete(id);
